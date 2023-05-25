@@ -3,16 +3,19 @@ import * as Contacts from "expo-contacts";
 import { useEffect, useState } from "react";
 import Contacto from "./contacto";
 import { useAppSelector } from "../redux/hooks";
+import { Stack } from "expo-router";
 export default function ContactsList() {
   const contacts = useAppSelector((state) => state.contactos.contactos);
   if (contacts.length === 0) {
     return (
         <View>
+        <Stack.Screen options={{ title: "Sin contactos" }} />
             <Text>No hay contactos</Text>
         </View>
     );}
   return (
     <View>
+      <Stack.Screen options={{ title: "Contactos" }} />
     <Text>Contacts: {contacts.length}</Text>
     <FlatList
       data={contacts}
