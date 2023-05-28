@@ -5,12 +5,15 @@ import { useAppDispatch } from "./redux/hooks";
 import { obtenerContactosLocales } from "./redux/Contactos";
 import { obtenerRutas } from "./redux/Rutas";
 import { obtenerLocalizacion } from "./redux/Localizacion";
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
+const auth = getAuth();
 
 export default function App() {
   useEffect(() => {useAppDispatch(obtenerContactosLocales())}, [useAppDispatch]);
   useEffect(() => {useAppDispatch(obtenerRutas())}, [useAppDispatch]);
   useEffect(() => {useAppDispatch(obtenerLocalizacion())}, [useAppDispatch]);
+  useEffect(() => {signInWithEmailAndPassword(auth, "amaya@gmail.com", "bici123")}, [getAuth]);
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ title: "" }} />

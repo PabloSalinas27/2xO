@@ -10,13 +10,21 @@ const navarra = {
   longitudeDelta: 0.3421,
 };
 
-export default function Mapa() {
+export default function MapaRuta() {
   const routeParams = useSearchParams();
   const localizacion = useAppSelector((state) => state.localizacion);
   const ruta = useAppSelector((state) => state.rutas.rutas.find((ruta) => ruta.id == routeParams.idRuta));
   let coords = navarra;
   if (localizacion.status == "ok"){
     coords = {...coords, ...localizacion.localizacion }
+  }
+  if (!ruta){
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ title: "Mapa" }} />
+        <Text>No se ha encontrado la ruta</Text>
+      </View>
+    );
   }
 
   return (
@@ -30,7 +38,7 @@ export default function Mapa() {
         <Marker coordinate={coords}>
           <Text style={{fontSize: 40}}>🚲</Text>
         </Marker>}
-        { ruta.puntos.map((punto) => <Marker id={punto.id} coordinate={punto} />) }
+        { ruta.puntos.map((punto, i) => <Marker key={i.toString() + "puntos"} coordinate={punto} />) }
         { ruta.puntos.length > 1 && <Polyline coordinates={ruta.puntos} /> }
         
       </MapView>

@@ -11,13 +11,15 @@ const initialState : {
 export const obtenerContactosLocales = createAsyncThunk(
   "obtenerContactos",
   async () => {
+    console.log("obtenerContactosLocales");
     const reqC = Contacts.requestPermissionsAsync();
-    const [{status}, a] = await Promise.all([reqC, getContactosServer()]);
+    const [{status}, a] = await Promise.all([reqC, getContactosServer("amaya") as any]);
+    console.log(a, status);
     if (status === "granted") {
       let { data } = await Contacts.getContactsAsync({
         fields: [Contacts.Fields.PhoneNumbers],
       });
-      data = a.concat(data);
+      data = a?.concat(data) || data;
       if (data.length > 0) {
         return data.filter((contacto) => contacto.phoneNumbers).sort((a, b) => a.name.localeCompare(b.name));
       }
