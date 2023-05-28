@@ -1,16 +1,15 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import * as Contacts from "expo-contacts";
 import { getContactosServer } from "./api";
 
-const initialState: {
-  contactos: Contacts.Contact[];
-  status: "onIt" | "ok" | string;
+const initialState : {
+  contactos: Contacts.Contact[],
+  status?: "onIt" | "ok" | string,
 } = {
-  contactos: [],
-  status: null,
-};
+  contactos: []
+}
 export const obtenerContactosLocales = createAsyncThunk(
-  "obtenerComentarios",
+  "obtenerContactos",
   async () => {
     const reqC = Contacts.requestPermissionsAsync();
     const [{status}, a] = await Promise.all([reqC, getContactosServer()]);
@@ -24,27 +23,26 @@ export const obtenerContactosLocales = createAsyncThunk(
       }
       throw new Error("No hay contactos");
     }
+      throw new Error("No hay permisos");
   }
 );
 
 const contactosSlice = createSlice({
   name: "contactos",
-  initialState: initialState,
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(obtenerContactosLocales.pending, (state, action) => {
       state.status = "onIt";
     });
     builder.addCase(obtenerContactosLocales.fulfilled, (state, action) => {
-      state.status = "ok";
       state.contactos = action.payload;
+      state.status = "ok";
     });
     builder.addCase(obtenerContactosLocales.rejected, (state, action) => {
       state.status = action.error.message;
     });
   },
 });
-
-export const {} = contactosSlice.actions;
 
 export default contactosSlice.reducer;

@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import contactosReducer from "./actionCreators";
+import contactosReducer from "./Contactos";
+import localizacionReducer from "./Localizacion";
+import rutasReducer from "./Rutas";
 
 export const store = configureStore({
   reducer: {
     contactos: contactosReducer,
+    localizacion: localizacionReducer,
+    rutas: rutasReducer,
   },
 });
 
