@@ -1,7 +1,7 @@
 import { Stack, useSearchParams } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
-import { useAppSelector } from "../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 
 const navarra = {
   latitude: 42.830700975992464,
@@ -30,12 +30,8 @@ export default function Mapa() {
         <Marker coordinate={coords}>
           <Text style={{fontSize: 40}}>🚲</Text>
         </Marker>}
-        {
-          ruta.puntos.map((punto) => <Marker id={punto.id} coordinate={punto} />)
-        }
-        {
-          ruta.puntos.length > 1 && <Polyline coordinates={ruta.puntos} />
-        }
+        { ruta.puntos.map((punto) => <Marker id={punto.id} coordinate={punto} />) }
+        { ruta.puntos.length > 1 && <Polyline coordinates={ruta.puntos} /> }
         
       </MapView>
     </View>

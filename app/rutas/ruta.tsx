@@ -8,7 +8,7 @@ import { useRouter } from "expo-router";
 export default function Rutas({ ruta }: { ruta: Ruta }) {
     const router = useRouter();
     return (
-    <TouchableOpacity onPress={() => {router.push({pathname: "./rutas/" + ruta.id})}}>
+    <TouchableOpacity onPress={() => {router.push({pathname: "./rutas/mapa/" + ruta.id})}}>
     <View style={styles.contactCon}>
       <View style={styles.imgCon}>
         <View style={styles.placeholder}>
